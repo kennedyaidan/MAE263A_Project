@@ -1,5 +1,5 @@
 % Disable Dynamixel Torque
-for i = 1:6
+for i = 1:length(MX28_ID)
     write1ByteTxRx(port_num, PROTOCOL_VERSION, MX28_ID(i), MX28_TORQUE_ENABLE, TORQUE_DISABLE);
 end
 dxl_comm_result = getLastTxRxResult(port_num, PROTOCOL_VERSION);
