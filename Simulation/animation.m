@@ -1,11 +1,9 @@
-function animation(c,joint,path,movie,speed)
+function animation(c,h,joint,path,movie,speed)
 
 
 px = path(1,:);
 py = path(2,:);
 pz = path(3,:);
-
-%h = 0.2; % base height
 
 % Create Movie
 if movie == 1
@@ -18,7 +16,7 @@ for i = 1:speed:length(joint)
     [fx,fy,fz,T] = FK(c,joint(:,i));
     
     % Base
-    plot3([0 fx(1)],[0 fy(1)],[0 fz(1)],'k','linewidth',8);
+    plot3([0 fx(1)],[0 fy(1)],[-h fz(1)],'k','linewidth',8);
     hold on;
     % Manipulator
     plot3(fx(1:end-1),fy(1:end-1),fz(1:end-1),'k','linewidth',4);
@@ -35,15 +33,15 @@ for i = 1:speed:length(joint)
     % Trajectory
     plot3(px,py,pz,'b');
     % Ground
-    X = [1 -1;1 -1]*0.2;
-    Y = [1 1;-1 -1]*0.2;
-    Z = [1 1;1 1]; %*-h;
+    X = [1 -1;1 -1]*h;
+    Y = [1 1;-1 -1]*h;
+    Z = [1 1;1 1]*-h;
     surf(X,Y,Z,'FaceColor',[0.9 0.9 0.9],'edgecolor','none'); hold on;
     % Label
     xlabel('x [m]');
     ylabel('y [m]');
     zlabel('z [m]');
-    axis([-0.2 0.2 -0.2 0.2 -0.2 0.2]);
+    axis([-h h -h h -h h]);
     pbaspect([1 1 1]);
     grid on;
 %     view(0,0);
