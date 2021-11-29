@@ -12,28 +12,30 @@ movie = 0;                %Save animation
 speed = 1;                %Speed of Animation
 
 % D-H Parameters
-alpha1 = 0;
+alpha0 = 0;
+a0 = 0;
+d1 = 0;
+%Theta1 to be solved for
+alpha1 = -pi/2;
 a1 = 0;
-%d1 variable to solve for
-theta1 = 0;
-alpha2 = pi/2;
-a2 = 0;
-d2 = 1; %PLACEHOLDER
+d2 = 0; 
 %Theta2 variable to solve for
-alpha3 = -pi/2;
-a3 = 0;
-d3 = 0;
+alpha2 = 0;
+a2 = 0.2; %Placeholder
+d3 = 0.05; %Placeholder
 %Theta3 variable to solve for
-alpha4 = 0;
-a4 = 3; %PLACEHODLER
-d4= 0;
+alpha3 = 0;
+a3 = 0.2; %Placeholder
+d4= 0.05; %Placeholder
 %Theta4 variable to solve for
-de = 0.1; %PLACEHOLDER
-c = [alpha1, a1, theta1, alpha2, a2, d2, alpha3, a3, d3, alpha4, a4, d4, de];
+c = [alpha0, a0, d1, alpha1, a1, d2, alpha2, a2, d3, alpha3, a3, d4];
+
+% Base Height
+h = 0.3; %meters
 
 
 % Specified trajectory and orientation of end effector (draw a circle)
-Gamma = 0; Beta = 0; Alpha = 180; %Euler angles
+Gamma = 180; Beta = 0; Alpha = 0; %Euler angles
 x = 0.025*cos(t) + 0.15;
 y = 0.025*sin(t);
 z = ones(1,N)*0;
@@ -55,16 +57,16 @@ path = [x;y;z]; %The specified trajectory
 % Computing joint angles from inverse kinmematics
 for i = 1:N
     p = [x(i) y(i) z(i)]'; %End effector position at each time step
-    T0e = [R p;0 0 0 1];   %Packing into Homogeneous coordinates
-    [dis1(i),theta2(i),theta3(i),theta4(i)] = IK(T0e,c);
+    T04 = [R p;0 0 0 1];   %Packing into Homogeneous coordinates
+    [theta1(i),theta2(i),theta3(i),theta4(i)] = IK(T04,c);
 end
 
 % Time Vector for each joint
-d1 = unwrap(dis1);
+t1 = unwrap(theta1);
 t2 = unwrap(theta2);
 t3 = unwrap(theta3);
 t4 = unwrap(theta4);
-joint = [d1;t2;t3;t4];
+joint = [t1;t2;t3;t4];
 
 figure(1)
-animation(c,joint,path,movie,speed)
+animation(c,h,joint,path,movie,speed)
