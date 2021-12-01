@@ -21,21 +21,21 @@ a1 = 0;
 d2 = 0; 
 %Theta2 variable to solve for
 alpha2 = 0;
-a2 = 0.2; %Placeholder
+a2 = 0.19208;
 d3 = 0.05; %Placeholder
 %Theta3 variable to solve for
 alpha3 = 0;
-a3 = 0.2; %Placeholder
+a3 = 0.18891; 
 d4= 0.05; %Placeholder
 %Theta4 variable to solve for
 c = [alpha0, a0, d1, alpha1, a1, d2, alpha2, a2, d3, alpha3, a3, d4];
 
 % Base Height
-h = 0.3; %meters
+h = 0.114; %meters
 
 
 % Specified trajectory and orientation of end effector (draw a circle)
-Gamma = 180; Beta = 0; Alpha = 0; %Euler angles
+Gamma = -pi; Beta = 0; Alpha = pi; %Euler angles
 x = 0.025*cos(t) + 0.15;
 y = 0.025*sin(t);
 z = ones(1,N)*0;
