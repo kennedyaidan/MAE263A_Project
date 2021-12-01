@@ -9,7 +9,8 @@ const byte servoID_4  {0x04};
 const int  pin_mot    {2};
 const byte pin_pot    {A0};
 int pot_val           {0};
-int motor_pos         {2048};
+int motor_pos         {4000};
+int motor_byte        {52};
 
  
 void setup(){
@@ -43,17 +44,35 @@ void setup(){
 }
  
 void loop(){
+if (Serial.available() > 2) {
+    motor_byte = Serial.read();
+}
 pot_val = analogRead(pin_pot);
-motor_pos = map_fl(pot_val,0,729,0,4096);
-Serial.print(motor_pos); Serial.println();
-moveServo(servoID_1, motor_pos); // Move to commanded position
-delay(10);
-moveServo(servoID_2, motor_pos); // Move to commanded position
-delay(10);
-moveServo(servoID_3, motor_pos); // Move to commanded position
-delay(10);
-moveServo(servoID_4, motor_pos); // Move to commanded position
-delay(10);
+Serial.print(pot_val); Serial.println();
+motor_pos = map_fl(pot_val,0,1023,0,4096);
+//Serial.print(motor_pos); Serial.println();
+if (motor_byte == 49) {
+  moveServo(servoID_1, motor_pos); // Move to commanded position
+  Serial.print("Moving Motor 1"); Serial.println();
+  delay(50);
+}
+if (motor_byte == 50) {
+  moveServo(servoID_2, motor_pos); // Move to commanded position
+    Serial.print("Moving Motor 2"); Serial.println();
+  delay(50);
+}
+if (motor_byte == 51) {
+  moveServo(servoID_3, motor_pos); // Move to commanded position
+    Serial.print("Moving Motor 3"); Serial.println();
+  delay(50);
+}
+if (motor_byte == 52) {
+  moveServo(servoID_4, motor_pos); // Move to commanded position
+    Serial.print("Moving Motor 4"); Serial.println();
+    Serial.print(motor_pos); Serial.println();
+  delay(50);
+}
+
 
 } 
 
